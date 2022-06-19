@@ -107,7 +107,7 @@ def Prange(s, H, t, r, n):
     while True:
         if limit == 0:
             return []
-        limitWhile = min(r*n, 500)
+        limitWhile = min(r*n, 200)
         ok = 1
         while True:
             if limitWhile == 0:

@@ -6,6 +6,9 @@ import echelon as ech
 
 
 def isExtract(H, s, n, r):
+    """
+    Initial part from Prange
+    """
     limitWhile = min(r*n, 200)
     while True:
         if limitWhile == 0:
@@ -20,25 +23,28 @@ def isExtract(H, s, n, r):
 
 
 def sum_columns_from_V(I, VIr):
+    """
+    Add columns from V with indexes j in I
+    :param I: column indexes to sum
+    :param VIr: matrix from where we add columns
+    :return: sum of j in I columns in base 2
+    """
     columns_sum = use.extract_column(VIr, I[0])
     for i in range(1, len(I)):
         columns_sum = use.add_column_arrays(columns_sum, use.extract_column(VIr, I[i]))
     return use.array_base2(columns_sum)
 
 
-def integerToCombinations(j, k):
-    values = []
-    while j:
-        value = random.choice(range(0, k))
-        while value in values:
-            value = random.choice(range(0, k))
-        else:
-            values.append(value)
-            j = j - 1
-    return values
-
-
 def LeeAlgorithm(H, s, t, r, n):
+    """
+    Lee and Brickell algorithm
+    :param H: Band matrix
+    :param s: syndrome a.i. s = Hx
+    :param t: weight
+    :param r: number of rows
+    :param n: number of columns
+    :return: reconstructed initial vector x, or [] if fails
+    """
     k = n - r
     limit = n
     while True:

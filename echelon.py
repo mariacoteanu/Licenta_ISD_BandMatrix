@@ -3,12 +3,20 @@ import usefull as use
 
 
 def ToReducedRowEchelonForm(M):
+    """
+    This method transform matrix M in reduced row echelon form
+    by trying to create I_r at his final rxr columns
+    and calculate matrix P such that P*M=[V|W]
+    :param M: initial matrix
+    :return: P, [V|I_r]
+    """
+
     if not M:
         return
 
     rowCount = len(M)
     columnCount = len(M[0])
-    lead = columnCount - rowCount
+    lead = columnCount - rowCount  # pivot
 
     p = np.eye(rowCount)
 
@@ -33,15 +41,13 @@ def ToReducedRowEchelonForm(M):
             new_P[r][r] = 0
 
         p = np.matmul(new_P, p)
-        lv = M[r][lead]
-        M[r] = [mrx / float(lv) for mrx in M[r]]
 
         for i in range(rowCount):
             if i != r:
                 lv = M[i][lead]
 
-                M[i] = [(2 - (iv - lv * rv)) % 2 for rv, iv in zip(M[r], M[i])]
                 if lv != 0:
+                    M[i] = [(2 - (iv - lv * rv)) % 2 for rv, iv in zip(M[r], M[i])]
                     new_P = np.eye(rowCount)
                     new_P[i][r] = 1
 

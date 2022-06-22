@@ -4,6 +4,14 @@ from matplotlib import pyplot as plt
 
 
 def display_plot(alg, r, n, xs, medie):
+    """
+    function to create results bar
+    :param alg: 1 for Prange and 2 for Lee-Brickell
+    :param r:  numebr of rows
+    :param n: number of columns
+    :param xs: vector [v1,v2,v3] with number of (un)success results
+    :param medie: mean time of calculus
+    """
     types = np.array(["True", "False", "Undefined"])
     values = np.array(xs)
     means = np.mean(np.array(medie))
@@ -18,6 +26,15 @@ def display_plot(alg, r, n, xs, medie):
 
 
 def append_to_file(file, r, n, t, tip, rez):
+    """
+    append to file newer results of every algorithm
+    :param file: where to append
+    :param r: number of rows used in algorithm
+    :param n: number of columns used in algorithm
+    :param t: weight used in algorithm
+    :param tip: what type of band matrix was from left of from right
+    :param rez: if we succeeded in reproduce initial message
+    """
     with open(file, "a") as file_object:
         file_object.write("\n")
         file_object.write(f"{r} {n} {t} {tip} {rez}")
@@ -32,6 +49,12 @@ def isOkInput(r, n):
 
 
 def generateCodeword(t, n):
+    """
+    generate vector v of length n and t values different than 0
+    :param t: weight
+    :param n: number of total values
+    :return: vector v
+    """
     v = [0] * n
     i = 0
     while i < t:
@@ -46,6 +69,11 @@ def generateCodeword(t, n):
 
 
 def RandomPermutation(n):
+    """
+    create matrix Q as a permutation of I_r
+    :param n: size of Q as nxn
+    :return: Q
+    """
     identity = np.zeros((n, n))
     pozitions = np.arange(0, n)
     random.shuffle(pozitions)
@@ -56,6 +84,13 @@ def RandomPermutation(n):
 
 
 def isIr(U, r, n):
+    """
+    we verify if the last rxr matrix from U is I_r
+    :param U:
+    :param r:
+    :param n:
+    :return:
+    """
     sub = U[0:r, n - r:n]
     m2 = np.eye(r)
 
@@ -68,6 +103,12 @@ def isIr(U, r, n):
 
 
 def altfelMatriciBanda(r, n):
+    """
+    type of band matrix that we use in this programs
+    :param r: number of rows
+    :param n: number of columns
+    :return: generated rxn band matrix
+    """
     rnd = random.randint(1, 2)
     M = np.zeros((r, n))
 
@@ -84,6 +125,13 @@ def altfelMatriciBanda(r, n):
 
 
 def isOk(P, H, V):
+    """
+    we verify if PH=V
+    :param P: matrix of size rxr
+    :param H: matrix of size rxn
+    :param V: matrix of size rxn
+    :return: True if PH=V, False otherwise
+    """
     intermediar = np.matmul(P, H)
     for i in range(len(intermediar)):
         for j in range(len(intermediar[0])):
@@ -95,6 +143,10 @@ def isOk(P, H, V):
 
 
 def matrix_base2(P):
+    """
+    :param P: matrix
+    :return: convert every value in base 2
+    """
     for i in range(len(P)):
         for j in range(len(P[0])):
             P[i][j] = P[i][j] % 2
@@ -103,32 +155,68 @@ def matrix_base2(P):
 
 
 def array_base2(A):
+    """
+    :param A: vector
+    :return: convert every value in base 2
+    """
     return [elem % 2 for elem in A]
 
 
 def write_to_file(fd, M, m):
+    """
+    write data to specific file
+    :param fd: file descriptor
+    :param M: Matrix to write
+    :param m: message
+    """
     fd.write(f"\n----- {m} ----\n")
     for line in M.tolist():
         fd.write(" ".join(str(line)) + "\n")
 
 
-def from_float_to_int_array(P):
-    return [int(elem) for elem in P]
+def from_float_to_int_array(A):
+    """
+    :param A: vector
+    :return: converted values from float to int
+    """
+    return [int(elem) for elem in A]
 
 
 def extract_column(M, i):
+    """
+    :param M: matrix
+    :param i: column index to extract
+    :return: extracted column i from M
+    """
     return [row[i] for row in M]
 
 
 def add_column_line(v_i, v_j):
+    """
+    :param v_i: syndrome of type[][]
+    :param v_j: vector of type []
+    :return: sum of v_i and v_j
+    """
     return array_base2([v_i[k][0] + v_j[k] for k in range(0, len(v_i))])
 
 
 def add_column_arrays(v_i, v_j):
+    """
+    :param v_i: vector of length r
+    :param v_j: vector of length r
+    :return: sum of v_i and v_j
+    """
     return array_base2([v_i[k] + v_j[k] for k in range(0, len(v_i))])
 
 
 def matriciSpeciale(r, n):
+    """
+    type of band matrix that create random number of parallel lines with main diagonal or
+    with second diagonal
+    :param r: number of rows
+    :param n: number of columns
+    :return: generated rxn band matrix
+    """
     rnd = random.randint(1, 2)
     mijloc = int(r / 2)
     banda = np.zeros((r, n))
@@ -173,6 +261,12 @@ def matriciSpeciale(r, n):
 
 
 def generareMatriceBanda(r, n):
+    """
+    type of band matrix that create random number of 1 zones horizontal, vertical, on main diagonal or second one
+    :param r: number of rows
+    :param n: number of columns
+    :return: generated rxn band matrix
+    """
     rnd = random.randint(1, 4)
     banda = np.zeros((r, n))
     print(f'---------- tip = {rnd} --------')
